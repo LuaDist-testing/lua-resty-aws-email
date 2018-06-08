@@ -2,9 +2,29 @@
 Send email using Amazon Simple Email Service(SES) API.
 
 # Installation
+```lua
+#luarocks install lua-resty-aws-email
+```
 
-    #luarocks install lua-resty-aws-email
+# API
 
+**:new(aws_email_config)**
+- @param table with 
+  - aws_key from aws dashboard
+  - aws_secret from aws dashboard
+  - aws_region aws_region is where the SES account created
+
+**:send(email, subject, body)**  
+Send email body as text
+- @param email string recipient email
+- @param subject string email subject
+- @param body string email content
+
+**:send_html(email, subject, body)**  
+send email body as html
+- @param email string recipient email
+- @param subject string email subject
+- @param body string email content
 
 # Usage
 ```lua
@@ -18,10 +38,10 @@ local aws_auth_config = {
 }
 
 local email = ses:new(aws_auth_config)
-local sent, info = email:send('hello@world.com', 'hello there', 'Sent using AWS Simple Email Service API') 
+local res, err = email:send('hello@world.com', 'hello there', 'Sent using AWS Simple Email Service API') 
 
 if not sent then
-  ngx.say('Failed: ' .. info)
+  ngx.say('Failed: ' .. err)
 else
   ngx.say('Sent')
 ```
